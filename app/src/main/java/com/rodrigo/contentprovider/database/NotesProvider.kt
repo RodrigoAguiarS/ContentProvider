@@ -2,10 +2,20 @@ package com.rodrigo.contentprovider.database
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 
 class NotesProvider : ContentProvider() {
+
+    private lateinit var mUriMatcher: UriMatcher
+
+    override fun onCreate(): Boolean {
+        mUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+        mUriMatcher.addURI(AUTHORITY, "notes", NOTES)
+        mUriMatcher.addURI(AUTHORITY, "notes/#", NOTES_BY_ID)
+        return true
+    }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         TODO("Implement this to handle requests to delete one or more rows")
@@ -22,9 +32,6 @@ class NotesProvider : ContentProvider() {
         TODO("Implement this to handle requests to insert a new row.")
     }
 
-    override fun onCreate(): Boolean {
-        TODO("Implement this to initialize your content provider on startup.")
-    }
 
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
@@ -38,5 +45,13 @@ class NotesProvider : ContentProvider() {
         selectionArgs: Array<String>?
     ): Int {
         TODO("Implement this to handle requests to update one or more rows.")
+    }
+    companion object{
+
+        const val AUTHORITY = "com.rodrigo.contentprovider.provider"
+        val BASE_URI = Uri.parse("content://$AUTHORITY")
+        val URI_NOTES = Uri.withAppendedPath(BASE_URI, "notes")
+        const val NOTES = 1
+        const val NOTES_BY_ID = 2
     }
 }
