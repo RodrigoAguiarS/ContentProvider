@@ -54,7 +54,7 @@ class NotesDetailFragment : DialogFragment(), DialogInterface.OnClickListener {
         return AlertDialog.Builder(activity as Activity)
             .setTitle(if (newNote)"Nova mensagem" else "Editar mensagem")
             .setView(view)
-            .setPositiveButton("Salva", this)
+            .setPositiveButton("Salvar", this)
             .setNegativeButton("Cancelar", this)
             .create()
 
